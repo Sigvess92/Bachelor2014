@@ -29,8 +29,8 @@ public class DBController extends controller.database.connections.Establish {
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         }
-        ArrayList<data.WorkHours> workHours = new ArrayList<>();
-        String query = "SELECT workhours FROM bach ORDER BY id ASC";
+        ArrayList<data.WorkHours> workHours = new ArrayList<data.WorkHours>();
+        String query = "SELECT * FROM workhours ORDER BY id ASC";
 //        System.out.println(query);
         PreparedStatement statement01 = null;
         ResultSet rs = null;
@@ -38,14 +38,13 @@ public class DBController extends controller.database.connections.Establish {
             statement01 = getConnect().prepareStatement(query);
             rs = statement01.executeQuery();
             while (rs.next()) {
-//                int autopass_id = rs.getInt("autopass_id");
                 int id = rs.getInt("id");
                 int hoursTotal = rs.getInt("hoursTotal");
                 double percentExternal = rs.getDouble("percentExternal");
                 workHours.add(new data.WorkHours(id, hoursTotal, percentExternal));
             }
         } catch (SQLException e) {
-            DBCleaner.writeOutput(e, "AutopassDB finnReisetider(): Error 02");
+            DBCleaner.writeOutput(e, "DB getWorkHours(): SQL Exception");
         }
         DBCleaner.closeStatement(statement01);
         DBCleaner.closeResultSet(rs);
