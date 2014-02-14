@@ -34,8 +34,8 @@ public class TestController implements Controller {
         logger.info("Returning hello view with " + now); 
         Map<String, Object> myModel = new HashMap<String, Object>();
         myModel.put("now", now);
-        myModel.put("products", this.db.getWorkHours()); 
-        return new ModelAndView("hello", "model", myModel);
+        myModel.put("hours", this.db.getWorkHours()); 
+        return new ModelAndView("test", "model", myModel);
     }
     public void setDBController(DBController db) {
         this.db = db;

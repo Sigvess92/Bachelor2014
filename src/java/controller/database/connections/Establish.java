@@ -16,7 +16,7 @@ import java.sql.DriverManager;
 public class Establish {
 
     private Connection connect;
-    String databasenavn = "jdbc:mysql://localhost:3306/mysql?zeroDateTimeBehavior=convertToNull";
+    String databasenavn = "jdbc:mysql://localhost:3306/bach";
     String databasedriver = "com.mysql.jdbc.Driver";
     String user = "root";
     String pw = "admin";
@@ -28,7 +28,7 @@ public class Establish {
     public void openConnection() {
 
         try {
-            Class.forName("com.mysql.jdbc.Driver");  // laster inn driverklassen
+            Class.forName(databasedriver);  // laster inn driverklassen
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not load DB driver");
         }
