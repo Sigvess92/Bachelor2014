@@ -3,27 +3,33 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package controller.database.executions;
 
 import controller.database.connections.DBCleaner;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  *
  * @author Sigve
  */
 public class DBController extends controller.database.connections.Establish {
-    
-    public DBController(){
-        
+
+    private Timer timer = new Timer();
+
+    public DBController(String databasenavn, String databasedriver, String user, String pw) {
+        super(databasenavn, databasedriver, user, pw);
+        insertData();
+
     }
-    
-    public ArrayList<data.WorkHours> getWorkHours(){
+
+    public ArrayList<data.WorkHours> getWorkHours() {
         try {
             openConnection();
         } catch (Exception e) {
@@ -50,6 +56,35 @@ public class DBController extends controller.database.connections.Establish {
         DBCleaner.closeResultSet(rs);
         closeConnection();
         return workHours;
+    }
+
+    private void regWorkHours() {
+        try {
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        String query = "INSERT INTO workhours (hoursTotal, percentExternal) VALUES(50,70)";
+        PreparedStatement statement01 = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate(query);
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB getWorkHours(): SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        closeConnection();
+    }
+
+    private void insertData() {
+      
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                regWorkHours();
+            }
+        }, 5*1000,5*1000);
+
     }
     
 }

@@ -10,20 +10,28 @@ package controllers;
  *
  * @author Sigve
  */
-import org.springframework.web.servlet.mvc.Controller;
-import org.springframework.web.servlet.ModelAndView; 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse; 
+import org.springframework.stereotype.Controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory; 
-import java.io.IOException;
-import java.util.Date;
-import java.util.Map;
-import java.util.HashMap;
 import controller.database.executions.DBController;
- 
-public class TestController implements Controller { 
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+
+@Controller
+public class TestController{ 
+
+    protected final Log logger = LogFactory.getLog(getClass());
+    private DBController db = new DBController("jdbc:mysql://localhost:3306/bachelor","com.mysql.jdbc.Driver","root","admin");
+    
+    @RequestMapping(value="/test.htm")
+    public String showWorkHours(ModelMap model){
+        model.addAttribute("WorkHours",db.getWorkHours());
+        return "test";
+    }  
+}
+/**
+ * public class TestController implements Controller { 
     
     protected final Log logger = LogFactory.getLog(getClass());
     private DBController db = new DBController();
@@ -41,3 +49,5 @@ public class TestController implements Controller {
         this.db = db;
     } 
 }
+ * 
+ */

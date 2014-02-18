@@ -16,10 +16,20 @@ import java.sql.DriverManager;
 public class Establish {
 
     private Connection connect;
-    String databasenavn = "jdbc:mysql://localhost:3306/bach";
-    String databasedriver = "com.mysql.jdbc.Driver";
-    String user = "root";
-    String pw = "admin";
+    private String databasenavn ;
+    private String databasedriver;
+    private String user ;
+    private String pw ;
+
+    
+
+    public Establish(String databasenavn, String databasedriver, String user, String pw) {
+        this.databasenavn = databasenavn;
+        this.databasedriver = databasedriver;
+        this.user = user;
+        this.pw = pw;
+    }
+    
 
     public Connection getConnect() {
         return connect;
