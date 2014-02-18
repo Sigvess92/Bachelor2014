@@ -28,6 +28,29 @@ public class DBController extends controller.database.connections.Establish {
         insertData();
 
     }
+    public int getListNumber(){
+        try {
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        int number= 0;
+        String query = "SELECT  COUNT(*) FROM WORKHOURS";
+        PreparedStatement statement01 = null;
+        ResultSet rs = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            rs = statement01.executeQuery();
+            number = rs.getInt(1);
+         
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB getWorkHours(): SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        DBCleaner.closeResultSet(rs);
+        closeConnection();
+        return number;
+    }
 
     public ArrayList<data.WorkHours> getWorkHours() {
         try {
