@@ -25,15 +25,17 @@ public class DBController extends controller.database.connections.Establish {
 
     public DBController(String databasenavn, String databasedriver, String user, String pw) {
         super(databasenavn, databasedriver, user, pw);
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        } 
         insertData();
 
     }
     public int getListNumber(){
-        try {
-            openConnection();
-        } catch (Exception e) {
-            DBCleaner.writeOutput(e, "Could not connect");
-        }
+        
         int number= 0;
         String query = "SELECT  COUNT(*) FROM WORKHOURS";
         PreparedStatement statement01 = null;
@@ -44,20 +46,16 @@ public class DBController extends controller.database.connections.Establish {
             number = rs.getInt(1);
          
         } catch (SQLException e) {
-            DBCleaner.writeOutput(e, "DB getWorkHours(): SQL Exception");
+            DBCleaner.writeOutput(e, "DB getListNumber(): SQL Exception");
         }
         DBCleaner.closeStatement(statement01);
         DBCleaner.closeResultSet(rs);
-        closeConnection();
+       
         return number;
     }
 
     public ArrayList<data.WorkHours> getWorkHours() {
-        try {
-            openConnection();
-        } catch (Exception e) {
-            DBCleaner.writeOutput(e, "Could not connect");
-        }
+       
         ArrayList<data.WorkHours> workHours = new ArrayList<data.WorkHours>();
         String query = "SELECT * FROM workhours ORDER BY id ASC";
 //        System.out.println(query);
@@ -77,26 +75,22 @@ public class DBController extends controller.database.connections.Establish {
         }
         DBCleaner.closeStatement(statement01);
         DBCleaner.closeResultSet(rs);
-        closeConnection();
+      
         return workHours;
     }
 
     private void regWorkHours() {
-        try {
-            openConnection();
-        } catch (Exception e) {
-            DBCleaner.writeOutput(e, "Could not connect");
-        }
+     
         String query = "INSERT INTO workhours (hoursTotal, percentExternal) VALUES(50,70)";
         PreparedStatement statement01 = null;
         try {
             statement01 = getConnect().prepareStatement(query);
             statement01.executeUpdate(query);
         } catch (SQLException e) {
-            DBCleaner.writeOutput(e, "DB getWorkHours(): SQL Exception");
+            DBCleaner.writeOutput(e, "DB regWorkHours(): SQL Exception");
         }
         DBCleaner.closeStatement(statement01);
-        closeConnection();
+       
     }
 
     private void insertData() {
