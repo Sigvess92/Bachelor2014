@@ -27,6 +27,18 @@ public class WorkHours {
     public double getPercentExternal() {
         return percentExternal;
     }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setHoursTotal(int hoursTotal) {
+        this.hoursTotal = hoursTotal;
+    }
+
+    public void setPercentExternal(double percentExternal) {
+        this.percentExternal = percentExternal;
+    }
     
     @Override
     public String toString(){
