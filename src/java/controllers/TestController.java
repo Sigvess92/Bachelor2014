@@ -28,7 +28,14 @@ public class TestController{
     public String showWorkHours(ModelMap model){
         model.addAttribute("WorkHours",db.getWorkHours());
         return "test";
-    }  
+    }
+    /*
+    public String showListNumber(ModelMap model){
+        model.addAttribute("ListNumber", db.getListNumber());
+        return "test";
+    }
+    */
+    
 }
 /**
  * public class TestController implements Controller { 
