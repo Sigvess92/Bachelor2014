@@ -7,12 +7,16 @@
 package servlets;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.google.gson.reflect.TypeToken;
 import controller.database.executions.DBController;
+import data.WorkHours;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -70,15 +74,23 @@ public class GaugeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         int number = db.getListNumber();
-        String text = " "+number;
+        String text = ""+number;
+        
           Gson gson = new Gson();
-        JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
+          JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
         }.getType());
 
-        JsonPrimitive jsonObject = element.getAsJsonPrimitive();
+        JsonPrimitive obj = element.getAsJsonPrimitive();
         response.setContentType("application/json");
 
-        response.getWriter().print(jsonObject);
+        response.getWriter().print(obj);
+//        JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
+//        }.getType());
+//
+//        JsonPrimitive jsonObject = element.getAsJsonPrimitive();
+//        response.setContentType("application/json");
+//
+//        response.getWriter().print(jsonObject);
     }
 
     /**

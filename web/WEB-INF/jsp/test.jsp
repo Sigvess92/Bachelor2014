@@ -37,6 +37,7 @@
         <script type="text/javascript" src="<c:url value="/Resources/js/raphael.2.1.0.min.js" />"></script>
         <script type="text/javascript" src="<c:url value="/Resources/js/justgage.1.0.1.min.js" />"></script>
         <script type="text/javascript" src="<c:url value="/Resources/js/jQuery.1.11.js" />"></script>
+        <script type="text/javascript" src="<c:url value="/Resources/js/highcharts.js" />"></script>
         <script>
             var g1;
             var number = 0;
@@ -53,9 +54,13 @@
 
 
                 setInterval(function() {
-                    $.getJSON('GaugeServlet', null, function())
-                    });
-                    g1.refresh();
+                    $.get('GaugeServlet', null, function(data) {
+                        if (data != null) {
+                            g1.refresh(data.toString());
+                        }
+                    }
+                    );
+
 
                 }, 2500);
             };
@@ -84,10 +89,60 @@
        
         </script>
         --%>
+        <script>
+            var chart;
+            $(document).ready(function() {
+                chart = new Highcharts.Chart({
+                    chart: {
+                        defaultSeriesType: 'line',
+                        renderTo: 'chart',
+                        inverted: false,
+                        events: {
+                            load: updateChart
+                        }
+                    },
+                    title: {
+                        text: 'Fruit Consumption'
+                    },
+                    xAxis: {
+                        title: {
+                            text: 'Day'
+                        },
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: 'Hours',
+                            align: 'high'
+                        }                        
+                    },
+                    series: [{
+                            name: 'Hours Total',
+                            data: []
+                        }]
+                });
+                setInterval(updateChart, 2500);
+            });
+            var updateChart = function() {
+                var hours = 0;
+                $.get('WorkHourServlet', function(responseJson) {
+                    if (responseJson != null) {
+                        $.each(responseJson, function(key, value) {
+                            hours = hours + value['hoursTotal'];
+                        });
+                        var series = chart.series[0],
+                                shift = series.data.length > 10;
+                        chart.series[0].addPoint(hours, true, shift);
+                    }
+                });
+            };
+        </script>
     </head>
     <body class="container">
         <div id="g1"></div>
         <h3>Statistics</h3>
+        <div id="chart" style="width:600px; height:400px;"></div>
+
         <%--
         <div id="workdiv">
             <table cellspacing ="0" id="worktable">

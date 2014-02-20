@@ -31,19 +31,21 @@ public class DBController extends controller.database.connections.Establish {
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         } 
-        //insertData();
+//        insertData();
 
     }
     public int getListNumber(){
         
         int number= 0;
-        String query = "SELECT  COUNT(*) FROM WORKHOURS";
+        String query = "SELECT COUNT(*) FROM workhours";
         PreparedStatement statement01 = null;
         ResultSet rs = null;
         try {
             statement01 = getConnect().prepareStatement(query);
             rs = statement01.executeQuery();
+            if(rs.next()){
             number = rs.getInt(1);
+            }
          
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB getListNumber(): SQL Exception");
