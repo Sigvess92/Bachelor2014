@@ -31,7 +31,7 @@ public class DBController extends controller.database.connections.Establish {
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         } 
-        insertData();
+        //insertData();
 
     }
     public int getListNumber(){
