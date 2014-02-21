@@ -21,23 +21,24 @@
                 top: 0;
                 left: 0;
             }
-
+            #links {
+                position: absolute;
+                width: 10%; height: 80%;
+                background-color: #B4CDCD;
+            }
             #g1 {
-                width: 20%; height: 16%;
+                width: 40%; height: 32%;
                 display: inline-block;
                 margin: 1em;
-                float: left;
             }
-
             #g2 {
-                width: 20%; height: 16%;
+                width: 40%; height: 32%;
                 display: inline-block;
                 margin: 1em;
-                float: left;
             }
-
             #chart {
-                width: 60%; height: 60%;
+                width: 70%; height: 50%;
+                margin-left: 16em;
             }
         </style>
     </head>
@@ -117,7 +118,10 @@
         var chart;
         $(document).ready(function() {
             chart = new Highcharts.Chart({
-                chart: {
+                credits: {
+                        enabled: false
+                    },
+                chart: {                    
                     defaultSeriesType: 'line',
                     renderTo: 'chart',
                     inverted: false,
@@ -166,9 +170,14 @@
         };
     </script>    
     <body>
-        <img id="logo" src="<c:url value="/Resources/images/sintef.gif"/>">
+        <img id="logo" src="<c:url value="/Resources/images/sintef.gif"/>">        
         <div class="grid">
-            <h3>Materialer og Kjemi</h3>            
+            <h3>Materialer og Kjemi</h3>  
+            <div id="links">
+                placeholder 1<br>
+                placeholder 2<br>
+                placeholder 3
+            </div>
             <div id="g1"></div>
             <div id="g2"></div>
             <div id="chart"></div>
