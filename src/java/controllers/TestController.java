@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory; 
 import controller.database.executions.DBController;
+import data.Constants;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,7 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class TestController{ 
 
     protected final Log logger = LogFactory.getLog(getClass());
-    private DBController db = new DBController("jdbc:mysql://localhost:3306/bachelor","com.mysql.jdbc.Driver","root","admin");
+    private final DBController db = new DBController();
     
     @RequestMapping(value="/test.htm")
     public String showWorkHours(ModelMap model){

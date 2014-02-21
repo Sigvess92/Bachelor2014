@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GaugeServlet", urlPatterns = {"/GaugeServlet"})
 public class GaugeServlet extends HttpServlet {
-        private DBController db = new DBController("jdbc:mysql://localhost:3306/bachelor", "com.mysql.jdbc.Driver", "root", "admin");
+        private DBController db = new DBController();
 
 
     /**

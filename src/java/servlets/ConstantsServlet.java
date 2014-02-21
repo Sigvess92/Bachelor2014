@@ -3,18 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package servlets;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.reflect.TypeToken;
-import controller.database.executions.DBController;
-import data.WorkHours;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,15 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Frode
+ * @author Sigve
  */
-@WebServlet(name = "WorkHourServlet", urlPatterns = {"/WorkHourServlet"})
-public class WorkHourServlet extends HttpServlet {
-
-    private DBController db = new DBController();
-
-    public WorkHourServlet() {        
-    }
+@WebServlet(name = "ConstantsServlet", urlPatterns = {"/ConstantsServlet"})
+public class ConstantsServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -51,10 +39,10 @@ public class WorkHourServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet WorkHourServlet</title>");
+            out.println("<title>Servlet ConstantsServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet WorkHourServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ConstantsServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
@@ -74,17 +62,6 @@ public class WorkHourServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ArrayList<WorkHours> workhours = db.getWorkHours();
-        db.regWorkHours();
-        Gson gson = new Gson();
-        JsonElement element = gson.toJsonTree(workhours, new TypeToken<List<WorkHours>>() {
-        }.getType());
-
-        JsonArray jsonArray = element.getAsJsonArray();
-        response.setContentType("application/json");
-
-        response.getWriter().print(jsonArray);
-
     }
 
     /**

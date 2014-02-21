@@ -4,6 +4,7 @@
  */
 package controller.database.connections;
 
+import data.Constants;
 import java.sql.Connection;
 import java.sql.DriverManager;
 
@@ -15,19 +16,19 @@ import java.sql.DriverManager;
  */
 public class Establish {
 
-    private Connection connect;
-    private String databasenavn ;
-    private String databasedriver;
-    private String user ;
-    private String pw ;
+    private Connection connect ;
+    private final String databasename = Constants.DatabaseURL;
+    private final String databasedriver = Constants.DatabaseDriver;
+    private final String user = Constants.DatabaseUser;
+    private final String pw = Constants.DatabasePassword;
 
     
 
-    public Establish(String databasenavn, String databasedriver, String user, String pw) {
-        this.databasenavn = databasenavn;
-        this.databasedriver = databasedriver;
-        this.user = user;
-        this.pw = pw;
+    public Establish() {
+//        this.databasenavn = databasenavn;
+//        this.databasedriver = databasedriver;
+//        this.user = user;
+//        this.pw = pw;
     }
     
 
@@ -38,12 +39,12 @@ public class Establish {
     public void openConnection() {
 
         try {
-            Class.forName(databasedriver);  // laster inn driverklassen
+            Class.forName(databasedriver);
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not load DB driver");
         }
         try {
-            connect = DriverManager.getConnection(databasenavn, user, pw);
+            connect = DriverManager.getConnection(databasename, user, pw);
             System.out.println("Connection to Database Successfull");
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Error With Database access");

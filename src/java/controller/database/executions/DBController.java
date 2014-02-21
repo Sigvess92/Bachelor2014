@@ -6,12 +6,14 @@
 package controller.database.executions;
 
 import controller.database.connections.DBCleaner;
+import data.Calculations;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -21,43 +23,48 @@ import java.util.TimerTask;
  */
 public class DBController extends controller.database.connections.Establish {
 
-    private Timer timer = new Timer();
+//    private final Timer timer = new Timer();
 
-    public DBController(String databasenavn, String databasedriver, String user, String pw) {
-        super(databasenavn, databasedriver, user, pw);
+    public DBController() {
+//        super(databasenavn, databasedriver, user, pw);
+
+//        insertData();
+    }
+
+    public int getListNumber() {
         try {
             System.out.println("Connecting to db");
             openConnection();
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
-        } 
-//        insertData();
-
-    }
-    public int getListNumber(){
-        
-        int number= 0;
+        }
+        int number = 0;
         String query = "SELECT COUNT(*) FROM workhours";
         PreparedStatement statement01 = null;
         ResultSet rs = null;
         try {
             statement01 = getConnect().prepareStatement(query);
             rs = statement01.executeQuery();
-            if(rs.next()){
-            number = rs.getInt(1);
+            if (rs.next()) {
+                number = rs.getInt(1);
             }
-         
+
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB getListNumber(): SQL Exception");
         }
         DBCleaner.closeStatement(statement01);
         DBCleaner.closeResultSet(rs);
-       
+        closeConnection();
         return number;
     }
 
     public ArrayList<data.WorkHours> getWorkHours() {
-       
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }        
         ArrayList<data.WorkHours> workHours = new ArrayList<data.WorkHours>();
         String query = "SELECT * FROM workhours ORDER BY id ASC";
 //        System.out.println(query);
@@ -77,33 +84,39 @@ public class DBController extends controller.database.connections.Establish {
         }
         DBCleaner.closeStatement(statement01);
         DBCleaner.closeResultSet(rs);
-      
+        closeConnection();
         return workHours;
     }
 
-    private void regWorkHours() {
-     
-        String query = "INSERT INTO workhours (hoursTotal, percentExternal) VALUES(50,70)";
-        PreparedStatement statement01 = null;
+    public void regWorkHours() {
         try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        Random generator = new Random();
+        String query = "INSERT INTO workhours (hoursTotal, percentExternal) VALUES(?,?)";
+        PreparedStatement statement01 = null;
+        try {            
             statement01 = getConnect().prepareStatement(query);
-            statement01.executeUpdate(query);
+            statement01.setInt(1, generator.nextInt(40));
+            statement01.setDouble(2, Calculations.round(generator.nextInt(99)+generator.nextDouble(),1));
+            statement01.executeUpdate();
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB regWorkHours(): SQL Exception");
         }
         DBCleaner.closeStatement(statement01);
-       
-    }
-
-    private void insertData() {
-      
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                regWorkHours();
-            }
-        }, 5*1000,5*1000);
+        closeConnection();
 
     }
-    
+
+//    private void insertData() {
+//        timer.scheduleAtFixedRate(new TimerTask() {
+//            @Override
+//            public void run() {
+//                regWorkHours();
+//            }
+//        }, 5 * 1000, 5 * 1000);
+//    }
 }
