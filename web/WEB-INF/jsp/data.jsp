@@ -5,9 +5,8 @@
 --%>
 <%@ include file="/WEB-INF/jsp/include.jsp" %> 
 <%
-int count;
+int number;
 controller.database.executions.DBController db = new controller.database.executions.DBController("jdbc:mysql://localhost:3306/bachelor","com.mysql.jdbc.Driver","root","admin");
-count = db.getCount();
+number = db.getListNumber();
 %>
-
-<%=count %>
+<%=number %>

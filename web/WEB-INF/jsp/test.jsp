@@ -1,51 +1,22 @@
-<%-- 
+<%--
     Document   : test
     Created on : Feb 12, 2014, 2:20:53 PM
     Author     : Sigve
 --%>
+
 <%@ include file="/WEB-INF/jsp/include.jsp" %> 
 
 <html>
     <head><title><fmt:message key="title"/></title>
-
-        <style>
-            body {
-                text-align: center;
-
-            }
-            h3 {
-                color:#B4CDCD;
-                font-size:130%;
-            }
-            #logo {
-                top: 0;
-                left: 0;
-            }
-            #links {
-                position: absolute;
-                width: 10%; height: 80%;
-                background-color: #B4CDCD;
-            }
-            #g1 {
-                width: 40%; height: 32%;
-                display: inline-block;
-                margin: 1em;
-            }
-            #g2 {
-                width: 40%; height: 32%;
-                display: inline-block;
-                margin: 1em;
-            }
-            #chart {
-                width: 70%; height: 50%;
-                margin-left: 16em;
-            }
-        </style>
+        <link rel="stylesheet" type="text/css" href="Resources/css/jquery.gridster.css">
+        <link rel="stylesheet" type="text/css" href="Resources/css/demo.css">
     </head>
     <script type="text/javascript" src="<c:url value="/Resources/js/raphael.2.1.0.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/justgage.1.0.1.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/jQuery.1.11.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/highcharts.js" />"></script>
+    <script type="text/javascript" src="<c:url value="/Resources/js/jquery.gridster.min.js" />"></script>
+
 
     <script>
         var g1, g2;
@@ -91,37 +62,31 @@
             }, 2500);
         };
     </script>
-    <%--
-    <script>
-        $(document).ready(function() {
-            setInterval(updateDiv, 500);
-        });
-        var updateDiv = function() {
-            $.get('WorkHourServlet', function(responseJson) {
-                if (responseJson != null) {
-                    $("#worktable").find("tr:gt(0)").remove();
-                    var table = $("#worktable");
-                    $.each(responseJson, function(key, value) {
-                        var rowNew = $("<tr><td></td><td></td><td></td></tr>");
-                        rowNew.children().eq(0).text(value['id']);
-                        rowNew.children().eq(1).text(value['hoursTotal']);
-                        rowNew.children().eq(2).text(value['percentExternal']);
-                        rowNew.appendTo(table);
-                    });
-                }
-            });
-        };
-   
-    </script>
-    --%>
+
+    <script type="text/javascript">
+
+        var gridster;
+
+    $(function(){
+
+      gridster = $(".gridster > ul").gridster({
+          widget_margins: [5, 5],
+          widget_base_dimensions: [100, 55]
+      }).data('gridster');
+
+    });
+
+    </script> 
+
+
     <script>
         var chart;
         $(document).ready(function() {
             chart = new Highcharts.Chart({
                 credits: {
-                        enabled: false
-                    },
-                chart: {                    
+                    enabled: false
+                },
+                chart: {
                     defaultSeriesType: 'line',
                     renderTo: 'chart',
                     inverted: false,
@@ -168,31 +133,39 @@
                 }
             });
         };
-    </script>    
-    <body>
-        <img id="logo" src="<c:url value="/Resources/images/sintef.gif"/>">        
-        <div class="grid">
-            <h3>Materialer og Kjemi</h3>  
-            <div id="links">
-                placeholder 1<br>
-                placeholder 2<br>
-                placeholder 3
-            </div>
-            <div id="g1"></div>
-            <div id="g2"></div>
-            <div id="chart"></div>
+    </script> 
 
-            <%--
-            <div id="workdiv">
-                <table cellspacing ="0" id="worktable">
-                    <tr>
-                        <th scope="col">ID:</th>
-                        <th scope="col">Hours total:</th>
-                        <th scope="col">Percent external:</th>
-                    </tr>
-                </table> 
-            </div>
-            --%>
+    <body>
+        <img id="logo" src="<c:url value="/Resources/images/sintef.gif"/>">  
+        <%--
+       <div class="grid">
+           <h3>Materialer og Kjemi</h3> 
+          
+           <div id="links">
+               placeholder 1<br>
+               placeholder 2<br>
+               placeholder 3
+           </div>
+           <div id="g1"></div>
+           <div id="g2"></div>
+           <div id="chart"></div>
+
+         
         </div>
+        --%>
+        
+        
+        <div class="gridster ready">
+            <ul style="width: 100%; position: relative; height: 100%;">
+                <li data-col="1" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:relative"><div id="g1"></div></li>
+                <li data-col="2" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:relative"><div id="g2"></div></li>
+                <li data-col="3" data-row="1" data-sizex="6" data-sizey="6" class="gs-w" style="position:relative"><div id="chart"></div></li>
+            </ul>
+        </div
+        
+     
+
     </body>
 </html>
+
+
