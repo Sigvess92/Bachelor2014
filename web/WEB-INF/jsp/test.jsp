@@ -67,14 +67,14 @@
 
         var gridster;
 
-    $(function(){
+        $(function() {
 
-      gridster = $(".gridster > ul").gridster({
-          widget_margins: [5, 5],
-          widget_base_dimensions: [100, 55]
-      }).data('gridster');
+            gridster = $(".gridster > ul").gridster({
+                widget_margins: [5, 5],
+                widget_base_dimensions: [100, 55]
+            }).data('gridster');
 
-    });
+        });
 
     </script> 
 
@@ -135,6 +135,139 @@
         };
     </script> 
 
+    <script>
+        var chart2;
+        $(document).ready(function() {
+            chart2 = new Highcharts.Chart({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'column',
+                    renderTo: 'chart2',
+                    events: {
+                        load: updateChart2
+                    }
+                },
+                title: {
+                    text: 'Issues'
+                },
+                xAxis: {
+                    title: {
+                        text: 'A'
+                    },
+                    categories: ['derp']
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Total'
+                    }
+                },
+                series: [{
+                        name: 'Bug',
+                        data: [3]
+                    },
+                    {
+                        name: 'Feature',
+                        data: [4]
+                    },
+                    {
+                        name: 'Test case',
+                        data: [5]
+                    }]
+            });
+            setInterval(updateChart2, 2500);
+        });
+        var updateChart2 = function() {
+            var bug = 0;
+            var feature = 0;
+            var test = 0;
+            $.get('IssueServlet', function(responseJson) {
+                if (responseJson != null) {
+                    $.each(responseJson, function(key, value) {
+                        if (value['issuetype'] === "Bug") {
+                            bug++;
+                        } else if (value['issuetype'] === "Feature") {
+                            feature++;
+                        } else {
+                            test++;
+                        }
+                    });
+                    chart2.series[0].data[0].update(bug);
+                    chart2.series[1].data[0].update(feature);
+                    chart2.series[2].data[0].update(test);
+                }
+            });
+        };
+    </script> 
+    <script>
+        var chart3;
+        // Radialize the colors
+        Highcharts.getOptions().colors = Highcharts.map(Highcharts.getOptions().colors, function(color) {
+            return {
+                radialGradient: {cx: 0.5, cy: 0.3, r: 0.7},
+                stops: [
+                    [0, color],
+                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                ]
+            };
+        });
+
+        // Build the chart
+
+        $(document).ready(function() {
+            chart3 = new Highcharts.Chart({
+                credits: {
+                    enabled: false
+                },
+                chart: {
+                    type: 'pie',
+                    renderTo: 'chart3',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'Browser market shares at a specific website, 2010'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            color: '#000000',
+                            connectorColor: '#000000',
+                            formatter: function() {
+                                return '<b>' + this.point.name + '</b>: ' + this.percentage + ' %';
+                            }
+                        }
+                    }
+                },
+                series: [{
+                        type: 'pie',
+                        name: 'Browser share',
+                        data: [
+                            ['Firefox', 45.0],
+                            ['IE', 26.8],
+                            {
+                                name: 'Chrome',
+                                y: 12.8,
+                                sliced: true,
+                                selected: true
+                            },
+                            ['Safari', 8.5],
+                            ['Opera', 6.2],
+                            ['Others', 0.7]
+                        ]
+                    }]
+            });
+        });
+    </script>
     <body>
         <img id="logo" src="<c:url value="/Resources/images/sintef.gif"/>">  
         <%--
@@ -153,17 +286,19 @@
          
         </div>
         --%>
-        
-        
+
+
         <div class="gridster ready">
             <ul style="width: 100%; position: relative; height: 100%;">
-                <li data-col="1" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:relative"><div id="g1"></div></li>
-                <li data-col="2" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:relative"><div id="g2"></div></li>
-                <li data-col="3" data-row="1" data-sizex="6" data-sizey="6" class="gs-w" style="position:relative"><div id="chart"></div></li>
+                <li data-col="1" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:absolute"><div id="g1"></div></li>
+                <li data-col="3" data-row="1" data-sizex="2" data-sizey="2" class="gs-w" style="position:absolute"><div id="g2"></div></li>
+                <li data-col="5" data-row="1" data-sizex="6" data-sizey="6" class="gs-w" style="position:absolute"><div id="chart"></div></li>
+                <li data-col="5" data-row="7" data-sizex="6" data-sizey="6" class="gs-w" style="position:absolute"><div id="chart2"></div></li>
+                <li data-col="1" data-row="3" data-sizex="4" data-sizey="4" class="gs-w" style="position:absolute"><div id="chart3"></div></li>
             </ul>
         </div
-        
-     
+
+
 
     </body>
 </html>
