@@ -6,8 +6,16 @@
 
 package servlets;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
+import controllers.ConstantsController;
+import data.WorkHours;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,6 +70,16 @@ public class ConstantsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+//        ArrayList<WorkHours> workhours = db.getWorkHours();
+//        db.regWorkHours();
+//        Gson gson = new Gson();
+//        JsonElement element = gson.toJsonTree(workhours, new TypeToken<List<WorkHours>>() {
+//        }.getType());
+//
+//        JsonArray jsonArray = element.getAsJsonArray();
+//        response.setContentType("application/json");
+//
+//        response.getWriter().print(jsonArray);
     }
 
     /**

@@ -16,11 +16,13 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import org.springframework.stereotype.Controller;
 
 /**
  *
  * @author Sigve
  */
+@Controller
 public class DBController extends controller.database.connections.Establish {
 
 //    private final Timer timer = new Timer();

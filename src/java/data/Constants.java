@@ -6,6 +6,8 @@
 
 package data;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Sigve
@@ -25,8 +27,17 @@ public class Constants {
     /**
      * Constants related to the statistics. 
      */
-    public final static int employeesInDepartment = 18;
-    public final static int employeesInSector = 100;
-    public final static int workHoursPerWeek = 40;
-    public final static int publicationsPerYear = 10;
+    public final int employeesInDepartment = 18;
+    public final int employeesInSector = 100;
+    public final int workHoursPerWeek = 40;
+    public final int publicationsPerYear = 10;
+    
+    public ArrayList<Integer> getStats(){
+        ArrayList<Integer> stats = new ArrayList<Integer>();
+        stats.add(employeesInDepartment);        
+        stats.add(employeesInSector);
+        stats.add(workHoursPerWeek);
+        stats.add(publicationsPerYear);
+        return stats;
+    }
 }
