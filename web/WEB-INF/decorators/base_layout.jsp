@@ -29,7 +29,7 @@
                 id: "g1",
                 value: number,
                 min: 0,
-                max: 18,
+                max: 2000,
                 title: "Timesheets",
                 label: "Registered"
             });

@@ -16,7 +16,8 @@ body {
     margin: 30px 40px;
 }
 #header {
-    color: black;
+    color: #ffffff;
+    background-color: #0033ff;
 }
 
 #logo {
