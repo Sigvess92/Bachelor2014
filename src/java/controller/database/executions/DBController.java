@@ -7,6 +7,8 @@ package controller.database.executions;
 
 import controller.database.connections.DBCleaner;
 import data.Calculations;
+import data.Issues;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -80,7 +82,7 @@ public class DBController extends controller.database.connections.Establish {
         return workHours;
     }
 
-    public ArrayList<data.Issues> getIssues() {
+    public ArrayList<Issues> getIssues() {
         try {
             System.out.println("Connecting to db");
             openConnection();
@@ -122,7 +124,7 @@ public class DBController extends controller.database.connections.Establish {
         try {
             statement01 = getConnect().prepareStatement(query);
             statement01.setInt(1, generator.nextInt(40));
-            statement01.setDouble(2, Calculations.round(generator.nextInt(99)+generator.nextDouble(),1));
+            statement01.setDouble(2, Calculations.round(generator.nextInt(99) + generator.nextDouble(), 1));
             statement01.executeUpdate();
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB regWorkHours(): SQL Exception");
@@ -131,45 +133,21 @@ public class DBController extends controller.database.connections.Establish {
         closeConnection();
 
     }
-    public void regIssues() {
+
+    public void regIssues(Issues issue) {
         try {
             System.out.println("Connecting to db");
             openConnection();
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         }
-        Random generator = new Random();
-        String issuetype = "";
-        String status = "";
-        int x = generator.nextInt(3);
-        if (x == 0) {
-            issuetype = "Bug";
-            if (generator.nextInt(2) == 0) {
-                status = "Passed";
-            } else {
-                status = "Open";
-            }
-        } else if (x == 1) {
-            issuetype = "Test case";
-            if (generator.nextInt(2) == 0) {
-                status = "Passed";
-            } else {
-                status = "In-progress";
-            }
-        } else {
-            issuetype = "Feature";
-            if (generator.nextInt(2) == 0) {
-                status = "Passed";
-            } else {
-                status = "In-progress";
-            }
-        }
-        String query = "INSERT INTO issues (issuetype, status) VALUES(?,?)";
+        String query = "INSERT INTO issues (id,issuetype, status) VALUES(?,?,?)";
         PreparedStatement statement01 = null;
         try {
             statement01 = getConnect().prepareStatement(query);
-            statement01.setString(1, issuetype);
-            statement01.setString(2, status);
+            statement01.setInt(1, issue.id);
+            statement01.setString(2, issue.issuetype);
+            statement01.setString(3, issue.status);
             statement01.executeUpdate();
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB regIssues(): SQL Exception");
@@ -177,4 +155,55 @@ public class DBController extends controller.database.connections.Establish {
         DBCleaner.closeStatement(statement01);
         closeConnection();
     }
+
+    
+     public void regIssues() {
+     try {
+     System.out.println("Connecting to db");
+     openConnection();
+     } catch (Exception e) {
+     DBCleaner.writeOutput(e, "Could not connect");
+     }
+        
+     Random generator = new Random();
+     String issuetype = "";
+     String status = "";
+     int x = generator.nextInt(3);
+     if (x == 0) {
+     issuetype = "Bug";
+     if (generator.nextInt(2) == 0) {
+     status = "Passed";
+     } else {
+     status = "Open";
+     }
+     } else if (x == 1) {
+     issuetype = "Test case";
+     if (generator.nextInt(2) == 0) {
+     status = "Passed";
+     } else {
+     status = "In-progress";
+     }
+     } else {
+     issuetype = "Feature";
+     if (generator.nextInt(2) == 0) {
+     status = "Passed";
+     } else {
+     status = "In-progress";
+     }
+     }
+     String query = "INSERT INTO issues (issuetype, status) VALUES(?,?)";
+     PreparedStatement statement01 = null;
+     try {
+     statement01 = getConnect().prepareStatement(query);
+     statement01.setString(1, issuetype);
+     statement01.setString(2, status);
+     statement01.executeUpdate();
+     } catch (SQLException e) {
+     DBCleaner.writeOutput(e, "DB regIssues(): SQL Exception");
+     }
+     DBCleaner.closeStatement(statement01);
+     closeConnection();
+
+     }
+     
 }
