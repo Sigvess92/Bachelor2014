@@ -12,18 +12,18 @@
 <html>
     <head>
         <link rel="stylesheet" type="text/css" href="Resources/css/jquery.gridster.css">
-        <link rel="stylesheet" type="text/css" href="Resources/css/demo.css">
+        <link rel="stylesheet" type="text/css" href="Resources/css/mainPage.css">
     </head>
     <script type="text/javascript" src="<c:url value="/Resources/js/raphael.2.1.0.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/justgage.1.0.1.min.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/jQuery.1.11.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/highcharts.js" />"></script>
     <script type="text/javascript" src="<c:url value="/Resources/js/jquery.gridster.min.js" />"></script>
- 
+
     <%--GAGE SCRIPT--%>
     <script>
         var g1, g2;
-        var number = 0;
+        var number = 0; //startvalue
         window.onload = function() {
             var g1 = new JustGage({
                 id: "g1",
@@ -41,6 +41,7 @@
                 title: "External hours",
                 label: "Percent"
             });
+            //Update charts
             setInterval(function() {
                 $.get('GaugeServlet', null, function(data) {
                     if (data != null) {
@@ -67,22 +68,18 @@
     </script>
 
     <%--GRID SCRIPT--%>
+
     <script type="text/javascript">
-
         var gridster;
-
         $(function() {
-
             gridster = $(".gridster > ul").gridster({
                 widget_margins: [5, 5],
                 widget_base_dimensions: [100, 55]
             }).data('gridster');
-
         });
-
     </script> 
 
-    <%--CHART SCRIPTS--%>
+    <%--LINECHART SCRIPT--%>
 
     <script>
         var chart;
@@ -139,6 +136,8 @@
         };
     </script> 
 
+    <%--BARCHART SCRIPT--%>
+
     <script>
         var chart2;
         $(document).ready(function() {
@@ -170,15 +169,15 @@
                 },
                 series: [{
                         name: 'Bug',
-                        data: [3]
+                        data: [0]
                     },
                     {
                         name: 'Feature',
-                        data: [4]
+                        data: [0]
                     },
                     {
                         name: 'Test case',
-                        data: [5]
+                        data: [0]
                     }]
             });
             setInterval(updateChart2, 2500);
@@ -205,6 +204,9 @@
             });
         };
     </script> 
+
+    <%--PIECHART SCRIPT--%>
+
     <script>
         var chart3;
         // Radialize the colors
@@ -239,7 +241,7 @@
                     text: 'Status of Jira issues'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>' //convert to percentage
                 },
                 plotOptions: {
                     pie: {
@@ -250,7 +252,7 @@
                             color: '#000000',
                             connectorColor: '#000000',
                             formatter: function() {
-                                return '<b>' + this.point.name + '</b>: ' + this.percentage.toPrecision(3) + ' %';
+                                return '<b>' + this.point.name + '</b>: ' + this.percentage.toPrecision(3) + ' %'; //convert to percentage
                             }
                         }
                     }

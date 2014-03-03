@@ -7,15 +7,11 @@ package controller.database.executions;
 
 import controller.database.connections.DBCleaner;
 import data.Calculations;
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Random;
-import java.util.Timer;
-import java.util.TimerTask;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -25,11 +21,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class DBController extends controller.database.connections.Establish {
 
-//    private final Timer timer = new Timer();
     public DBController() {
-//        super(databasenavn, databasedriver, user, pw);
-
-//        insertData();
     }
 
     public int getListNumber() {
@@ -68,7 +60,6 @@ public class DBController extends controller.database.connections.Establish {
         }
         ArrayList<data.WorkHours> workHours = new ArrayList<data.WorkHours>();
         String query = "SELECT * FROM workhours ORDER BY id ASC";
-//        System.out.println(query);
         PreparedStatement statement01 = null;
         ResultSet rs = null;
         try {
@@ -98,7 +89,6 @@ public class DBController extends controller.database.connections.Establish {
         }
         ArrayList<data.Issues> issues = new ArrayList<data.Issues>();
         String query = "SELECT * FROM issues ORDER BY id ASC";
-//        System.out.println(query);
         PreparedStatement statement01 = null;
         ResultSet rs = null;
         try {
@@ -186,15 +176,5 @@ public class DBController extends controller.database.connections.Establish {
         }
         DBCleaner.closeStatement(statement01);
         closeConnection();
-
     }
-
-//    private void insertData() {
-//        timer.scheduleAtFixedRate(new TimerTask() {
-//            @Override
-//            public void run() {
-//                regWorkHours();
-//            }
-//        }, 5 * 1000, 5 * 1000);
-//    }
 }

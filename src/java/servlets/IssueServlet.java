@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package servlets;
 
 import com.google.gson.Gson;
@@ -12,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import controller.database.executions.DBController;
 import data.Issues;
-import data.WorkHours;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -30,10 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "IssueServlet", urlPatterns = {"/IssueServlet"})
 public class IssueServlet extends HttpServlet {
     
-    private DBController db = new DBController();
+    private final DBController db = new DBController();
     
-    public IssueServlet(){
-        
+    public IssueServlet(){        
     }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

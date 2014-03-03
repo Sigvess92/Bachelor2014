@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package servlets;
 
 import com.google.gson.Gson;
@@ -28,9 +23,9 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "WorkHourServlet", urlPatterns = {"/WorkHourServlet"})
 public class WorkHourServlet extends HttpServlet {
 
-    private DBController db = new DBController();
+    private final DBController db = new DBController();
 
-    public WorkHourServlet() {        
+    public WorkHourServlet() {
     }
 
     /**
@@ -74,17 +69,15 @@ public class WorkHourServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+
         ArrayList<WorkHours> workhours = db.getWorkHours();
         db.regWorkHours();
         Gson gson = new Gson();
         JsonElement element = gson.toJsonTree(workhours, new TypeToken<List<WorkHours>>() {
         }.getType());
-
         JsonArray jsonArray = element.getAsJsonArray();
         response.setContentType("application/json");
-
         response.getWriter().print(jsonArray);
-
     }
 
     /**

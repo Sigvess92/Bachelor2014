@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.database.connections;
 
 import java.sql.Connection;
@@ -14,7 +10,7 @@ import java.sql.Statement;
  * database connections. These methods are helpful for commonly used code in
  * database-methods so we avoid duplication of code.
  *
- * @author Pers
+ * @author Sigve
  */
 public class DBCleaner {
 

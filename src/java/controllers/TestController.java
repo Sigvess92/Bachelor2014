@@ -6,7 +6,7 @@
 
 package controllers;
 
-/**
+/**NO LONGER IN USE
  *
  * @author Sigve
  */
@@ -14,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory; 
 import controller.database.executions.DBController;
-import data.Constants;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 

@@ -1,5 +1,3 @@
-
-
 package data;
 
 public class WorkHours {
@@ -43,9 +41,5 @@ public class WorkHours {
     @Override
     public String toString(){
         return "Hours total: " + hoursTotal + "Percent external hours: " + percentExternal;
-    }
-    
-    
-    
-    
+    }    
 }

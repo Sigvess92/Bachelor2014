@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller.database.connections;
 
 import data.Constants;
@@ -20,17 +16,10 @@ public class Establish {
     private final String databasename = Constants.DatabaseURL;
     private final String databasedriver = Constants.DatabaseDriver;
     private final String user = Constants.DatabaseUser;
-    private final String pw = Constants.DatabasePassword;
-
-    
+    private final String pw = Constants.DatabasePassword;    
 
     public Establish() {
-//        this.databasenavn = databasenavn;
-//        this.databasedriver = databasedriver;
-//        this.user = user;
-//        this.pw = pw;
-    }
-    
+    }    
 
     public Connection getConnect() {
         return connect;
@@ -49,7 +38,6 @@ public class Establish {
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Error With Database access");
         }
-
     }
 
     /**

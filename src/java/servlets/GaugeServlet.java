@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package servlets;
 
 import com.google.gson.Gson;
@@ -29,8 +23,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "GaugeServlet", urlPatterns = {"/GaugeServlet"})
 public class GaugeServlet extends HttpServlet {
-        private DBController db = new DBController();
 
+    private DBController db = new DBController();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -50,7 +44,7 @@ public class GaugeServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet GaugeServlet</title>");            
+            out.println("<title>Servlet GaugeServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet GaugeServlet at " + request.getContextPath() + "</h1>");
@@ -73,24 +67,15 @@ public class GaugeServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        int number = db.getListNumber();
-        String text = ""+number;
-        
-          Gson gson = new Gson();
-          JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
-        }.getType());
 
+        int number = db.getListNumber();
+        String text = "" + number;
+        Gson gson = new Gson();
+        JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
+        }.getType());
         JsonPrimitive obj = element.getAsJsonPrimitive();
         response.setContentType("application/json");
-
         response.getWriter().print(obj);
-//        JsonElement element = gson.toJsonTree(text, new TypeToken<String>() {
-//        }.getType());
-//
-//        JsonPrimitive jsonObject = element.getAsJsonPrimitive();
-//        response.setContentType("application/json");
-//
-//        response.getWriter().print(jsonObject);
     }
 
     /**
