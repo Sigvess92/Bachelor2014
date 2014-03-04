@@ -22,6 +22,14 @@
                 <li data-col="1" data-row="3" data-sizex="6" data-sizey="7" class="gs-w" style="position:absolute"><div id="chart2"></div></li>
                 <li data-col="8" data-row="3" data-sizex="2" data-sizey="3" class="gs-w" style="position:absolute"><div id="chart3"></div></li>
                 <li data-col="3" data-row="1" data-sizex="2" data-sizey="3" class="gs-w" style="position:absolute"><div id="g3"></div></li>
+                <li data-col="3" data-row="1" data-sizex="2" data-sizey="3" class="gs-w" style="position:absolute">
+                    <div id="ach1">
+                        <img id="pic1" src="<c:url value="/Resources/images/ach1.jpg"/>">
+                        <br/><br/>
+                        <h3>ach1</h3>
+                    </div>
+                </li>
+                
             </ul>
         </div
     </body>
