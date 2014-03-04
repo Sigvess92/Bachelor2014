@@ -206,4 +206,71 @@ public class DBController extends controller.database.connections.Establish {
 
      }
      
+     public boolean checkIfCompleted(int value){
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        boolean result = false;
+        String query = "SELECT * FROM achievementsavailable WHERE "+value+">=treshold";
+        PreparedStatement statement01 = null;
+        ResultSet rs = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            rs = statement01.executeQuery();
+            while (rs.next()) {                
+                grantAchievement(rs.getString("title"), rs.getString("description"), rs.getInt("treshold"), rs.getInt("reward"));
+                removeGrantedAchievement(rs.getInt("id"));
+                result = true;
+            }
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB CheckIfCompleted(): SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        DBCleaner.closeResultSet(rs);
+        closeConnection();
+        return result;        
+    }
+    
+    public void grantAchievement(String title, String description, int treshold, int value){
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        String query = "INSERT INTO achievementsgranted VALUES("+title+","+description+","+treshold+","+value+")";
+        PreparedStatement statement01 = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB GrantAchievement: SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        closeConnection();        
+    }
+    
+    public void removeGrantedAchievement(int id){
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        String query = "DELETE FROM achievementsavailable WHERE id="+id;
+        PreparedStatement statement01 = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB removeGrantedAchievement: SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        closeConnection();
+    }
 }
