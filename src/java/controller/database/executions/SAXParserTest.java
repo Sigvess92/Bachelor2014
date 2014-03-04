@@ -31,12 +31,6 @@ public class SAXParserTest {
                 handler);
         handler.addToDB();
 
-        //Printing the list of employees obtained from XML
-        for (Issues issue : handler.issueList) {
-
-            System.out.println(issue);
-        }
-        System.out.println(handler.issueList.size());
     }
 
 }
@@ -90,24 +84,35 @@ class SAXHandler extends DefaultHandler {
         content = String.copyValueOf(ch, start, length).trim();
     }
 
-    //CHECK IF THIS ISSUE IS ALREADY IN DB
     public void addToDB() {
         ArrayList<Issues> list = new ArrayList<Issues>();
         list = db.getIssues();
+
         if (list.isEmpty()) {
             for (Issues x : issueList) {
                 db.regIssues(x);
             }
         } else {
-            for(int i = 0;i<issueList.size();i++){
-                for(int j = 0;j<list.size();j++){
-                    if(!issueList.get(i).equals(list.get(j))){
-                        db.regIssues(issueList.get(i));
-                    }
+            for (int i = 0; i < issueList.size(); i++) {
+                if (checkIssue(issueList.get(i))) {
+                    db.regIssues(issueList.get(i));
                 }
             }
-
         }
+
+    }
+
+    private boolean checkIssue(Issues check) {
+        ArrayList<Issues> list = new ArrayList<Issues>();
+        list = db.getIssues();
+        for (int j = 0; j < list.size(); j++) {
+            if (check.equals(list.get(j))) {
+                System.out.println("OK");
+                return false;
+            }
+        }
+        System.out.println("NOPE");
+        return true;
 
     }
 }
