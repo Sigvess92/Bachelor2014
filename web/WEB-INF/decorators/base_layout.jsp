@@ -22,7 +22,7 @@
 
     <%--GAGE SCRIPT--%>
     <script>
-        var g1, g2;
+        var g1, g2, g3;
         var number = 0; //startvalue
         window.onload = function() {
             var g1 = new JustGage({
@@ -41,7 +41,15 @@
                 title: "External hours",
                 label: "Percent"
             });
-            //Update charts
+            var g3 = new JustGage({
+                id: "g3",
+                value: number,
+                min: 0,
+                max: 100,
+                title: "Achievements",
+                label: "Total"
+            });
+            //Update gages
             setInterval(function() {
                 $.get('GaugeServlet', null, function(data) {
                     if (data != null) {
@@ -60,6 +68,18 @@
                             count++;
                         });
                         g2.refresh((percent / count).toPrecision(3));
+                    }
+                }
+                );
+            }, 2500);
+            setInterval(function() {
+                var count = 0;
+                $.get('AchievementServlet', null, function(data) {
+                    if (data != null) {
+                        $.each(data, function(key, value) {
+                            count++;
+                        });
+                        g3.refresh(count);
                     }
                 }
                 );

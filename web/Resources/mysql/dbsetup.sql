@@ -33,5 +33,8 @@ INSERT INTO Issues (issuetype, status) VALUES ('Bug','Resolved');
 INSERT INTO Issues (issuetype, status) VALUES ('Test case','Passed');
 INSERT INTO Issues (issuetype, status) VALUES ('Bug','Open');
 INSERT INTO AchievementsAvailable (title, description, treshold, reward) VALUES ('Completionist','All of you have registered timesheets on time this week!',18,5);
+INSERT INTO AchievementsAvailable (title, description, treshold, reward) VALUES ('Perfectionist','All of you have registered timesheets on time this week!',36,5);
+INSERT INTO AchievementsAvailable (title, description, treshold, reward) VALUES ('Savant','All of you have registered timesheets on time this week!',54,5);
+INSERT INTO AchievementsAvailable (title, description, treshold, reward) VALUES ('Ruler of time','All of you have registered timesheets on time this week!',72,5);
 
 SELECT treshold FROM achievements WHERE 20>achievements.treshold;

@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package servlets;
 
 import com.google.gson.Gson;
@@ -5,7 +11,8 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import controller.database.executions.DBController;
-import data.WorkHours;
+import data.Achievement;
+import data.Issues;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -18,14 +25,15 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author Frode
+ * @author Sigve
  */
-@WebServlet(name = "WorkHourServlet", urlPatterns = {"/WorkHourServlet"})
-public class WorkHourServlet extends HttpServlet {
-
+@WebServlet(name = "AchievementServlet", urlPatterns = {"/AchievementServlet"})
+public class AchievementServlet extends HttpServlet {
+    
     private final DBController db = new DBController();
-
-    public WorkHourServlet() {
+    
+    public AchievementServlet(){
+        
     }
 
     /**
@@ -46,10 +54,10 @@ public class WorkHourServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet WorkHourServlet</title>");
+            out.println("<title>Servlet AchievementServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet WorkHourServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet AchievementServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         } finally {
@@ -69,15 +77,19 @@ public class WorkHourServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
-        ArrayList<WorkHours> workhours = db.getWorkHours();
-        db.regWorkHours();
-        db.checkIfCompleted(workhours.size());
+        ArrayList<Achievement> unlocked = new ArrayList<Achievement>();
+        try{
+        unlocked = db.getGrantedAchievements();
+        }catch(NullPointerException e){
+            throw e;
+        }
         Gson gson = new Gson();
-        JsonElement element = gson.toJsonTree(workhours, new TypeToken<List<WorkHours>>() {
+        JsonElement element = gson.toJsonTree(unlocked, new TypeToken<List<Achievement>>() {
         }.getType());
+
         JsonArray jsonArray = element.getAsJsonArray();
         response.setContentType("application/json");
+
         response.getWriter().print(jsonArray);
     }
 

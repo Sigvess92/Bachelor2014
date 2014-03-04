@@ -10,14 +10,14 @@ package data;
  *
  * @author Sigve
  */
-public class Achievements {
+public class Achievement {
     
     public String title;
     public String description;
     public int treshold;
     public int value;
 
-    public Achievements(String title, String description, int treshold, int value) {
+    public Achievement(String title, String description, int treshold, int value) {
         this.title = title;
         this.description = description;
         this.treshold = treshold;

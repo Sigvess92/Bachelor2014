@@ -6,6 +6,7 @@
 package controller.database.executions;
 
 import controller.database.connections.DBCleaner;
+import data.Achievement;
 import data.Calculations;
 import data.Issues;
 import java.sql.Connection;
@@ -241,10 +242,14 @@ public class DBController extends controller.database.connections.Establish {
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         }
-        String query = "INSERT INTO achievementsgranted VALUES("+title+","+description+","+treshold+","+value+")";
+        String query = "INSERT INTO achievementsgranted (title, description, treshold, reward) VALUES(?,?,?,?)";
         PreparedStatement statement01 = null;
         try {
             statement01 = getConnect().prepareStatement(query);
+            statement01.setString(1, title);
+            statement01.setString(2, description);
+            statement01.setInt(3, treshold);
+            statement01.setInt(4, value);
             statement01.executeUpdate();
             
         } catch (SQLException e) {
@@ -273,4 +278,37 @@ public class DBController extends controller.database.connections.Establish {
         DBCleaner.closeStatement(statement01);
         closeConnection();
     }
+    
+    public ArrayList<Achievement> getGrantedAchievements(){
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }
+        ArrayList<Achievement> myAchievements = new ArrayList<Achievement>();
+        String query = "SELECT * FROM achievementsgranted";
+        PreparedStatement statement01 = null;
+        ResultSet rs = null;
+        try {
+            statement01 = getConnect().prepareStatement(query);
+            rs = statement01.executeQuery();
+            while (rs.next()) {                
+                myAchievements.add(new Achievement(rs.getString("title"), rs.getString("description"), rs.getInt("treshold"), rs.getInt("reward")));
+            }
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB getGrantedAchievements(): SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        DBCleaner.closeResultSet(rs);
+        closeConnection();
+        return myAchievements;
+    }
+//    public static void main(String[]args){
+//        String title = "lol";
+//        String description = "so wow";
+//        int treshold = 18;
+//        int value = 5;
+//        System.out.println("INSERT INTO achievementsgranted (title, description, treshold, value) VALUES("+title+","+description+","+treshold+","+value+")");
+//    }
 }
