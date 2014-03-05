@@ -31,21 +31,24 @@ body {
     width: 10%; height: 80%;
     background-color:#B4CDCD;
 }
+
 #g1 {
     width: 100%; height: 100%;
     display: inline-block;
 
 }
+
 #g2 {
     width: 100%; height: 100%;
     display: inline-block;
 
 }
-#chart3 {
+
+#g3 {
     width: 100%; height: 100%;
+    display: inline-block;
 
 }
-
 
 .controls {
     margin-bottom: 20px;

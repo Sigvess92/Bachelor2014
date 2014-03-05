@@ -222,7 +222,7 @@ public class DBController extends controller.database.connections.Establish {
             statement01 = getConnect().prepareStatement(query);
             rs = statement01.executeQuery();
             while (rs.next()) {                
-                grantAchievement(rs.getString("title"), rs.getString("description"), rs.getInt("treshold"), rs.getInt("reward"));
+                grantAchievement(rs.getString("title"), rs.getString("description"), rs.getString("image"), rs.getInt("treshold"), rs.getInt("reward"));
                 removeGrantedAchievement(rs.getInt("id"));
                 result = true;
             }
@@ -235,21 +235,22 @@ public class DBController extends controller.database.connections.Establish {
         return result;        
     }
     
-    public void grantAchievement(String title, String description, int treshold, int value){
+    public void grantAchievement(String title, String description, String image, int treshold, int value){
         try {
             System.out.println("Connecting to db");
             openConnection();
         } catch (Exception e) {
             DBCleaner.writeOutput(e, "Could not connect");
         }
-        String query = "INSERT INTO achievementsgranted (title, description, treshold, reward) VALUES(?,?,?,?)";
+        String query = "INSERT INTO achievementsgranted (title, description, image, treshold, reward) VALUES(?,?,?,?,?)";
         PreparedStatement statement01 = null;
         try {
             statement01 = getConnect().prepareStatement(query);
             statement01.setString(1, title);
             statement01.setString(2, description);
-            statement01.setInt(3, treshold);
-            statement01.setInt(4, value);
+            statement01.setString(3, image);
+            statement01.setInt(4, treshold);
+            statement01.setInt(5, value);
             statement01.executeUpdate();
             
         } catch (SQLException e) {
@@ -294,7 +295,7 @@ public class DBController extends controller.database.connections.Establish {
             statement01 = getConnect().prepareStatement(query);
             rs = statement01.executeQuery();
             while (rs.next()) {                
-                myAchievements.add(new Achievement(rs.getString("title"), rs.getString("description"), rs.getInt("treshold"), rs.getInt("reward")));
+                myAchievements.add(new Achievement(rs.getString("title"), rs.getString("description"), rs.getString("image"), rs.getInt("treshold"), rs.getInt("reward")));
             }
         } catch (SQLException e) {
             DBCleaner.writeOutput(e, "DB getGrantedAchievements(): SQL Exception");
@@ -304,11 +305,52 @@ public class DBController extends controller.database.connections.Establish {
         closeConnection();
         return myAchievements;
     }
+    
+    public boolean resetDB(){
+        try {
+            System.out.println("Connecting to db");
+            openConnection();
+        } catch (Exception e) {
+            DBCleaner.writeOutput(e, "Could not connect");
+        }        
+        PreparedStatement statement01 = null;
+        boolean res = false;
+        try {
+            String query = "DELETE FROM achievementsgranted";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "DELETE FROM workhours WHERE id>1";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "DELETE FROM achievementsavailable";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "DELETE FROM issues WHERE id!=5";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "INSERT INTO AchievementsAvailable (title, description, image, treshold, reward) VALUES ('Completionist','All of you have registered timesheets on time this week!','Resources/images/ach1.jpg',18,5)";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "INSERT INTO AchievementsAvailable (title, description, image, treshold, reward) VALUES ('Perfectionist','All of you have registered timesheets on time for 2 weeks in a row!','Resources/images/ach2.jpg',36,5)";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "INSERT INTO AchievementsAvailable (title, description, image, treshold, reward) VALUES ('Savant','All of you have registered timesheets on time for 3 weeks in a row!!','Resources/images/ach3.jpg',54,5)";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            query = "INSERT INTO AchievementsAvailable (title, description, image, treshold, reward) VALUES ('Ruler of time','All of you have registered timesheets on time this month!','Resources/images/ach4.jpg',72,5)";
+            statement01 = getConnect().prepareStatement(query);
+            statement01.executeUpdate();
+            res = true;
+            
+        } catch (SQLException e) {
+            DBCleaner.writeOutput(e, "DB resetDB(): SQL Exception");
+        }
+        DBCleaner.closeStatement(statement01);
+        closeConnection();
+        return res;
+    }
 //    public static void main(String[]args){
-//        String title = "lol";
-//        String description = "so wow";
-//        int treshold = 18;
-//        int value = 5;
-//        System.out.println("INSERT INTO achievementsgranted (title, description, treshold, value) VALUES("+title+","+description+","+treshold+","+value+")");
+//        DBController db = new DBController();
+//        System.out.println(db.resetDB());
 //    }
 }
